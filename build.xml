@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="comze-rio" default="build" basedir=".">
+
+	<property name="build.version" value="0.1.0" />
+
+	<property name="src.dir" value="src/main/java" />
+	<property name="dest.dir" value="dest" />
+	<property name="build.dir" value="build" />
+
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${dest.dir}" />
+	</target>
+
+	<target name="compile" depends="init">
+		<javac debug="on" debuglevel="lines,vars,source" srcdir="${src.dir}" destdir="${build.dir}" encoding="UTF-8" nowarn="true" source="1.6" target="1.6" includeantruntime="false" />
+
+		<jar destfile="${dest.dir}/${ant.project.name}-driver-${build.version}.jar">
+			<manifest>
+				<attribute name="Built-By" value="GK.ZHONG" />
+				<attribute name="Specification-Title" value="Comze Raspberry Pi GPIO Driver" />
+				<attribute name="Specification-Vendor" value="GK.ZHONG" />
+				<attribute name="Implementation-Version" value="${build.version}" />
+				<attribute name="Implementation-Vendor" value="GK.ZHONG" />
+			</manifest>
+			<fileset dir="${build.dir}">
+				<include name="net/**/*" />
+			</fileset>
+		</jar>
+		<jar destfile="${dest.dir}/${ant.project.name}-driver-${build.version}-source.jar">
+			<manifest>
+				<attribute name="Built-By" value="GK.ZHONG" />
+				<attribute name="Specification-Title" value="Comze Raspberry Pi GPIO Driver" />
+				<attribute name="Specification-Vendor" value="GK.ZHONG" />
+				<attribute name="Implementation-Version" value="${build.version}" />
+				<attribute name="Implementation-Vendor" value="GK.ZHONG" />
+			</manifest>
+			<fileset dir="${src.dir}">
+				<include name="net/**/*" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="build" depends="compile">
+		<antcall target="clean" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+</project>
