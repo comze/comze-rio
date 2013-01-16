@@ -16,12 +16,14 @@
  */
 package net.comze.driver.rio;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:gkzhong@gmail.com">GK.ZHONG</a>
  * @since 0.1.0 Jan 14, 2013 3:36:48 PM
  * @version ReadOnlyException.java 0.1.0 Jan 14, 2013 3:36:48 PM
  */
-public class ReadOnlyException extends UnsupportedOperationException {
+public class ReadOnlyException extends IOException {
 
 	private static final long serialVersionUID = -204080077557378451L;
 

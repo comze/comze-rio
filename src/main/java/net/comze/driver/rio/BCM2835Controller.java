@@ -37,7 +37,9 @@ public class BCM2835Controller extends AbstractBitController {
 
 	public BCM2835Controller(Layout layout) throws IOException {
 		this.layout = layout;
-		write(new File(EXPORT), layout.name().substring(4));
+		if (!isOpen()) {
+			write(new File(EXPORT), layout.name().substring(4));
+		}
 	}
 
 	private static final String DIRECTION = "/sys/class/gpio/%s/direction";
@@ -48,7 +50,7 @@ public class BCM2835Controller extends AbstractBitController {
 
 	private static final String UNEXPORT = "/sys/class/gpio/unexport";
 
-	private Layout layout;
+	private final Layout layout;
 
 	@Override
 	public Layout bit() {
@@ -57,28 +59,41 @@ public class BCM2835Controller extends AbstractBitController {
 
 	@Override
 	public boolean value() throws IOException {
+		assertAccessible();
 		return !read(new File(String.format(VALUE, layout.name()))).equals("0");
 	}
 
 	@Override
 	public void value(boolean value) throws IOException {
+		if (direction() == Direction.IN) {
+			throw new ReadOnlyException();
+		}
 		write(new File(String.format(VALUE, layout.name())), value ? "1" : "0");
 	}
 
 	@Override
 	public Direction direction() throws IOException {
+		assertAccessible();
 		String direction = read(new File(String.format(DIRECTION, layout.name())));
 		return Enum.valueOf(Direction.class, direction.toUpperCase());
 	}
 
 	@Override
 	public void direction(Direction direction) throws IOException {
+		assertAccessible();
 		write(new File(String.format(DIRECTION, layout.name())), direction.name().toLowerCase());
 	}
 
 	@Override
+	public boolean isOpen() {
+		return new File(String.format(VALUE, layout.name())).exists();
+	}
+
+	@Override
 	public void close() throws IOException {
-		write(new File(UNEXPORT), layout.name().substring(4));
+		if (isOpen()) {
+			write(new File(UNEXPORT), layout.name().substring(4));
+		}
 	}
 
 	private static String read(File file) throws IOException {

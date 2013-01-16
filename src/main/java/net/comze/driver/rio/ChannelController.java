@@ -25,4 +25,6 @@ import java.io.Closeable;
  */
 public interface ChannelController extends Closeable {
 
+	public boolean isOpen();
+
 }

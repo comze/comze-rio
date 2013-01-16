@@ -20,37 +20,25 @@ import java.io.IOException;
 
 /**
  * @author <a href="mailto:gkzhong@gmail.com">GK.ZHONG</a>
- * @since 0.1.0 Jan 14, 2013 4:56:20 PM
- * @version AbstractBitController.java 0.1.0 Jan 14, 2013 4:56:20 PM
+ * @since 0.1.0 Jan 16, 2013 5:29:16 PM
+ * @version AccessException.java 0.1.0 Jan 16, 2013 5:29:16 PM
  */
-public abstract class AbstractBitController implements BitController {
+public class AccessException extends IOException {
 
-	@Override
-	public ReadableController asReadableController() throws IOException {
-		direction(Direction.IN);
-		return this;
+	private static final long serialVersionUID = -4853567398934072253L;
+
+	public AccessException() {}
+
+	public AccessException(String message) {
+		super(message);
 	}
 
-	@Override
-	public WritableController asWritableController() throws IOException {
-		direction(Direction.OUT);
-		return this;
+	public AccessException(Throwable cause) {
+		super(cause);
 	}
 
-	@Override
-	public boolean read() throws IOException {
-		return value();
-	}
-
-	@Override
-	public void write(boolean value) throws IOException {
-		value(value);
-	}
-
-	protected void assertAccessible() throws IOException {
-		if (!isOpen()) {
-			throw new AccessException();
-		}
+	public AccessException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
 }
