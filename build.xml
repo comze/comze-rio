@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="comze-rio" default="build" basedir=".">
 
-	<property name="build.version" value="0.1.0" />
+	<property name="build.version" value="0.1.1" />
 
 	<property name="src.dir" value="src/main/java" />
 	<property name="dest.dir" value="dest" />

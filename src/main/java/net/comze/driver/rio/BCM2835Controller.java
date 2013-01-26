@@ -26,7 +26,7 @@ import java.io.OutputStream;
 /**
  * @author <a href="mailto:gkzhong@gmail.com">GK.ZHONG</a>
  * @since 0.1.0 Jan 14, 2013 4:46:43 PM
- * @version BCM2835Controller.java 0.1.0 Jan 14, 2013 4:46:43 PM
+ * @version BCM2835Controller.java 0.1.1 Jan 26, 2013 6:41:18 PM
  */
 public class BCM2835Controller extends AbstractBitController {
 
@@ -106,9 +106,11 @@ public class BCM2835Controller extends AbstractBitController {
 				stringBuilder.append((char) c);
 			}
 		} finally {
-			inputStream.close();
+			if (inputStream != null) {
+				inputStream.close();
+			}
 		}
-		return stringBuilder.toString();
+		return stringBuilder.toString().trim();
 	}
 
 	private static void write(File file, String value) throws IOException {
@@ -117,7 +119,9 @@ public class BCM2835Controller extends AbstractBitController {
 			outputStream = new FileOutputStream(file, false);
 			outputStream.write(value.getBytes());
 		} finally {
-			outputStream.close();
+			if (outputStream != null) {
+				outputStream.close();
+			}
 		}
 	}
 
